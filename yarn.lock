@@ -1014,8 +1014,7 @@ blake2b-wasm@^2.4.0:
 
 "blake2b@https://github.com/VerusCoin/blake2b":
   version "2.1.4"
-  resolved "git+ssh://git@github.com/VerusCoin/blake2b.git"
-  integrity sha512-60dONgtyWHv421fPKSwCSESRf/nNvkVrehfRA4ay7CyEeNeiOe9veA4lsoINxrDDGe9Lspp14MjO7ntNohj9aQ==
+  resolved "https://github.com/VerusCoin/blake2b#578dc12b7b68a3ce76d1e1add1402b28a5890a6b"
   dependencies:
     blake2b-wasm "^2.4.0"
     nanoassert "^2.0.0"
