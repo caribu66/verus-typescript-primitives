@@ -1,4 +1,5 @@
 export const MAKE_OFFER = 'makeoffer'
+export const TAKE_OFFER = 'takeoffer'
 export const GET_OFFERS = 'getoffers'
 export const GET_IDENTITY = 'getidentity'
 export const GET_IDENTITIES_WITH_ADDRESS = 'getidentitieswithaddress'

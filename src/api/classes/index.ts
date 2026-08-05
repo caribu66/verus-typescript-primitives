@@ -27,6 +27,7 @@ import { GetRawTransactionRequest } from './GetRawTransaction/GetRawTransactionR
 import { GetRawTransactionResponse } from './GetRawTransaction/GetRawTransactionResponse'
 import { MakeOfferRequest } from './MakeOffer/MakeOfferRequest'
 import { MakeOfferResponse } from './MakeOffer/MakeOfferResponse'
+import { TakeOfferRequest } from './TakeOffer/TakeOfferRequest'
 import { SendRawTransactionRequest } from './SendRawTransaction/SendRawTransactionRequest'
 import { SendRawTransactionResponse } from './SendRawTransaction/SendRawTransactionResponse'
 import { SignMessageRequest } from './SignMessage/SignMessageRequest'
@@ -84,6 +85,7 @@ export {
   GetRawTransactionResponse,
   MakeOfferRequest,
   MakeOfferResponse,
+  TakeOfferRequest,
   SendRawTransactionRequest,
   SendRawTransactionResponse,
   GetInfoRequest,
@@ -114,6 +116,7 @@ export {
 
 export type RpcRequest =
   | typeof MakeOfferRequest
+  | typeof TakeOfferRequest
   | typeof GetOffersRequest
   | typeof GetAddressBalanceRequest
   | typeof GetAddressDeltasRequest

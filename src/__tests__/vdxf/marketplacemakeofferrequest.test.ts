@@ -1,6 +1,6 @@
 import { BN } from "bn.js";
 import { MarketplaceMakeOfferRequestDetails, MarketplaceMakeOfferRequestOrdinalVDXFObject, GenericRequest } from "../../vdxf/classes";
-import { MarketplaceMakeOfferParams } from "../../vdxf/classes/request/MarketplaceMakeOfferRequestDetails";
+import { MarketplaceMakeOfferParams, MarketplaceMakeBuyOfferParams } from "../../vdxf/classes/request/MarketplaceMakeOfferRequestDetails";
 import { MARKETPLACE_MAKEOFFER_REQUEST_VDXF_ORDINAL } from "../../constants/ordinals/ordinals";
 import { TransferDestination, DEST_PKH } from "../../pbaas/TransferDestination";
 import { fromBase58Check } from "../../utils/address";
@@ -97,5 +97,48 @@ describe("MarketplaceMakeOfferRequestDetails", () => {
     const json = parsed.toJson();
     const fromJson = MarketplaceMakeOfferRequestDetails.fromJson(json);
     expect(fromJson.toBuffer().toString('hex')).toBe(parsed.toBuffer().toString('hex'));
+  });
+
+  it("should serialize and deserialize buy params correctly", () => {
+    const buyParams = new MarketplaceMakeBuyOfferParams({
+      targetIdentityId: "iN388XsmXaj7H3SLy5L1QgVztn99Yfv3b1",
+      offeredCurrencyId: "iJhCezBExJHvtyH3fGhNnt2NhU4Ztkf2yq",
+      offeredAmountSats: new BN("200000000", 10),
+      acceptDestination: new TransferDestination({
+        type: DEST_PKH,
+        destinationBytes: fromBase58Check("RHCnxQP14Cug3JJJSUvoXM35suPw4ZqqAa").hash
+      }),
+      changeDestination: new TransferDestination({
+        type: DEST_PKH,
+        destinationBytes: fromBase58Check("RHCnxQP14Cug3JJJSUvoXM35suPw4ZqqAa").hash
+      }),
+      expiryHeight: new BN("1135109", 10)
+    });
+
+    const details = new MarketplaceMakeOfferRequestDetails({
+      offerDescription: "Bid 2 VRSCTEST for NFT",
+      buyParams
+    });
+
+    expect(details.containsBuyParams()).toBe(true);
+    expect(details.containsOfferParams()).toBe(false);
+    expect(details.isValid()).toBe(true);
+
+    const request = new GenericRequest({
+      details: [
+        new MarketplaceMakeOfferRequestOrdinalVDXFObject({
+          data: details,
+          type: MARKETPLACE_MAKEOFFER_REQUEST_VDXF_ORDINAL
+        })
+      ]
+    });
+
+    const parsedReq = new GenericRequest();
+    parsedReq.fromBuffer(request.toBuffer());
+    const parsed = (parsedReq.details[0] as MarketplaceMakeOfferRequestOrdinalVDXFObject).data;
+    expect(parsed.containsBuyParams()).toBe(true);
+    expect(parsed.buyParams.targetIdentityId).toBe("iN388XsmXaj7H3SLy5L1QgVztn99Yfv3b1");
+    expect(parsed.buyParams.offeredAmountSats.toString(10)).toBe("200000000");
+    expect(parsed.toJson().buyParams.offeredamount).toBe("200000000");
   });
 });

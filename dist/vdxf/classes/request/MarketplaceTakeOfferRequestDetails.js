@@ -102,6 +102,11 @@ class MarketplaceTakeOfferRequestDetails {
                 this.toggleContainsOfferParams();
             this.offerParams = data.offerParams;
         }
+        if (data === null || data === void 0 ? void 0 : data.bidOfferTxid) {
+            if (!this.containsBidOfferTxid())
+                this.toggleContainsBidOfferTxid();
+            this.bidOfferTxid = data.bidOfferTxid;
+        }
     }
     containsRawTx() {
         return !!(this.flags.and(MarketplaceTakeOfferRequestDetails.MARKETPLACE_TAKEOFFER_REQUEST_CONTAINS_RAW_TX).toNumber());
@@ -112,6 +117,9 @@ class MarketplaceTakeOfferRequestDetails {
     containsOfferParams() {
         return !!(this.flags.and(MarketplaceTakeOfferRequestDetails.MARKETPLACE_TAKEOFFER_REQUEST_CONTAINS_OFFER_PARAMS).toNumber());
     }
+    containsBidOfferTxid() {
+        return !!(this.flags.and(MarketplaceTakeOfferRequestDetails.MARKETPLACE_TAKEOFFER_REQUEST_CONTAINS_BID_OFFER_TXID).toNumber());
+    }
     toggleContainsRawTx() {
         this.flags = this.flags.xor(MarketplaceTakeOfferRequestDetails.MARKETPLACE_TAKEOFFER_REQUEST_CONTAINS_RAW_TX);
     }
@@ -121,13 +129,22 @@ class MarketplaceTakeOfferRequestDetails {
     toggleContainsOfferParams() {
         this.flags = this.flags.xor(MarketplaceTakeOfferRequestDetails.MARKETPLACE_TAKEOFFER_REQUEST_CONTAINS_OFFER_PARAMS);
     }
+    toggleContainsBidOfferTxid() {
+        this.flags = this.flags.xor(MarketplaceTakeOfferRequestDetails.MARKETPLACE_TAKEOFFER_REQUEST_CONTAINS_BID_OFFER_TXID);
+    }
     isValid() {
-        // The request must carry something actionable: either a pre-built raw
-        // transaction or the parameters to construct one.
-        if (!this.containsRawTx() && !this.containsOfferParams())
+        // Sell purchase: raw partial and/or offer params.
+        // Accept bid: bid txid + offer params (terms for the wallet UI/RPC).
+        if (!this.containsRawTx() && !this.containsOfferParams() && !this.containsBidOfferTxid()) {
+            return false;
+        }
+        if (this.containsBidOfferTxid() && !this.containsOfferParams())
             return false;
         if (this.containsRawTx() && !this.rawTransactionHex)
             return false;
+        if (this.containsBidOfferTxid() && (!this.bidOfferTxid || !/^[0-9a-fA-F]{64}$/.test(this.bidOfferTxid))) {
+            return false;
+        }
         if (this.containsDesc() && !this.offerDescription)
             return false;
         if (this.containsOfferParams() && (this.offerParams == null || !this.offerParams.isValid())) {
@@ -154,6 +171,9 @@ class MarketplaceTakeOfferRequestDetails {
             length += varuint_1.default.encodingLength(paramsLength);
             length += paramsLength;
         }
+        if (this.containsBidOfferTxid()) {
+            length += 32;
+        }
         return length;
     }
     toBuffer() {
@@ -167,6 +187,9 @@ class MarketplaceTakeOfferRequestDetails {
         }
         if (this.containsOfferParams()) {
             writer.writeVarSlice(this.offerParams.toBuffer());
+        }
+        if (this.containsBidOfferTxid()) {
+            writer.writeSlice(Buffer.from(this.bidOfferTxid, 'hex'));
         }
         return writer.buffer;
     }
@@ -183,6 +206,9 @@ class MarketplaceTakeOfferRequestDetails {
             this.offerParams = new MarketplaceTakeOfferParams();
             this.offerParams.fromBuffer(reader.readVarSlice(), 0);
         }
+        if (this.containsBidOfferTxid()) {
+            this.bidOfferTxid = reader.readSlice(32).toString('hex');
+        }
         return reader.offset;
     }
     toJson() {
@@ -190,7 +216,8 @@ class MarketplaceTakeOfferRequestDetails {
             flags: this.flags ? this.flags.toString(10) : undefined,
             rawTransactionHex: this.containsRawTx() ? this.rawTransactionHex : undefined,
             offerDescription: this.containsDesc() ? this.offerDescription : undefined,
-            offerParams: this.containsOfferParams() ? this.offerParams.toJson() : undefined
+            offerParams: this.containsOfferParams() ? this.offerParams.toJson() : undefined,
+            bidOfferTxid: this.containsBidOfferTxid() ? this.bidOfferTxid : undefined
         };
     }
     static fromJson(json) {
@@ -198,7 +225,8 @@ class MarketplaceTakeOfferRequestDetails {
             flags: json.flags ? new bn_js_1.BN(json.flags, 10) : undefined,
             rawTransactionHex: json.rawTransactionHex,
             offerDescription: json.offerDescription,
-            offerParams: json.offerParams ? MarketplaceTakeOfferParams.fromJson(json.offerParams) : undefined
+            offerParams: json.offerParams ? MarketplaceTakeOfferParams.fromJson(json.offerParams) : undefined,
+            bidOfferTxid: json.bidOfferTxid
         });
     }
 }
@@ -207,3 +235,4 @@ MarketplaceTakeOfferRequestDetails.MARKETPLACE_TAKEOFFER_REQUEST_VALID = new bn_
 MarketplaceTakeOfferRequestDetails.MARKETPLACE_TAKEOFFER_REQUEST_CONTAINS_RAW_TX = new bn_js_1.BN(1, 10);
 MarketplaceTakeOfferRequestDetails.MARKETPLACE_TAKEOFFER_REQUEST_CONTAINS_DESC = new bn_js_1.BN(2, 10);
 MarketplaceTakeOfferRequestDetails.MARKETPLACE_TAKEOFFER_REQUEST_CONTAINS_OFFER_PARAMS = new bn_js_1.BN(4, 10);
+MarketplaceTakeOfferRequestDetails.MARKETPLACE_TAKEOFFER_REQUEST_CONTAINS_BID_OFFER_TXID = new bn_js_1.BN(8, 10);

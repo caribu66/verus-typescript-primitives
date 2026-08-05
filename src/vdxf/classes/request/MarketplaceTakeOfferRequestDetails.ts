@@ -24,6 +24,8 @@ export type MarketplaceTakeOfferRequestDetailsJson = {
   rawTransactionHex?: string;
   offerDescription?: string;
   offerParams?: MarketplaceTakeOfferParamsJson;
+  /** Buy-side bid txid the seller will takeoffer (accept bid). */
+  bidOfferTxid?: string;
 }
 
 /**
@@ -133,17 +135,21 @@ export class MarketplaceTakeOfferRequestDetails implements SerializableEntity {
   rawTransactionHex?: string;
   offerDescription?: string;
   offerParams?: MarketplaceTakeOfferParams;
+  /** On-chain buy-side offer txid to take as seller (accept bid). */
+  bidOfferTxid?: string;
 
   static MARKETPLACE_TAKEOFFER_REQUEST_VALID = new BN(0, 10);
   static MARKETPLACE_TAKEOFFER_REQUEST_CONTAINS_RAW_TX = new BN(1, 10);
   static MARKETPLACE_TAKEOFFER_REQUEST_CONTAINS_DESC = new BN(2, 10);
   static MARKETPLACE_TAKEOFFER_REQUEST_CONTAINS_OFFER_PARAMS = new BN(4, 10);
+  static MARKETPLACE_TAKEOFFER_REQUEST_CONTAINS_BID_OFFER_TXID = new BN(8, 10);
 
   constructor (data?: {
     flags?: BigNumber,
     rawTransactionHex?: string,
     offerDescription?: string,
-    offerParams?: MarketplaceTakeOfferParams
+    offerParams?: MarketplaceTakeOfferParams,
+    bidOfferTxid?: string
   }) {
     this.flags = data && data.flags ? data.flags : new BN("0", 10);
 
@@ -161,6 +167,11 @@ export class MarketplaceTakeOfferRequestDetails implements SerializableEntity {
       if (!this.containsOfferParams()) this.toggleContainsOfferParams();
       this.offerParams = data.offerParams;
     }
+
+    if (data?.bidOfferTxid) {
+      if (!this.containsBidOfferTxid()) this.toggleContainsBidOfferTxid();
+      this.bidOfferTxid = data.bidOfferTxid;
+    }
   }
 
   containsRawTx() {
@@ -175,6 +186,10 @@ export class MarketplaceTakeOfferRequestDetails implements SerializableEntity {
     return !!(this.flags.and(MarketplaceTakeOfferRequestDetails.MARKETPLACE_TAKEOFFER_REQUEST_CONTAINS_OFFER_PARAMS).toNumber());
   }
 
+  containsBidOfferTxid() {
+    return !!(this.flags.and(MarketplaceTakeOfferRequestDetails.MARKETPLACE_TAKEOFFER_REQUEST_CONTAINS_BID_OFFER_TXID).toNumber());
+  }
+
   toggleContainsRawTx() {
     this.flags = this.flags.xor(MarketplaceTakeOfferRequestDetails.MARKETPLACE_TAKEOFFER_REQUEST_CONTAINS_RAW_TX);
   }
@@ -187,11 +202,21 @@ export class MarketplaceTakeOfferRequestDetails implements SerializableEntity {
     this.flags = this.flags.xor(MarketplaceTakeOfferRequestDetails.MARKETPLACE_TAKEOFFER_REQUEST_CONTAINS_OFFER_PARAMS);
   }
 
+  toggleContainsBidOfferTxid() {
+    this.flags = this.flags.xor(MarketplaceTakeOfferRequestDetails.MARKETPLACE_TAKEOFFER_REQUEST_CONTAINS_BID_OFFER_TXID);
+  }
+
   isValid(): boolean {
-    // The request must carry something actionable: either a pre-built raw
-    // transaction or the parameters to construct one.
-    if (!this.containsRawTx() && !this.containsOfferParams()) return false;
+    // Sell purchase: raw partial and/or offer params.
+    // Accept bid: bid txid + offer params (terms for the wallet UI/RPC).
+    if (!this.containsRawTx() && !this.containsOfferParams() && !this.containsBidOfferTxid()) {
+      return false;
+    }
+    if (this.containsBidOfferTxid() && !this.containsOfferParams()) return false;
     if (this.containsRawTx() && !this.rawTransactionHex) return false;
+    if (this.containsBidOfferTxid() && (!this.bidOfferTxid || !/^[0-9a-fA-F]{64}$/.test(this.bidOfferTxid))) {
+      return false;
+    }
     if (this.containsDesc() && !this.offerDescription) return false;
     if (this.containsOfferParams() && (this.offerParams == null || !this.offerParams.isValid())) {
       return false;
@@ -224,6 +249,10 @@ export class MarketplaceTakeOfferRequestDetails implements SerializableEntity {
       length += paramsLength;
     }
 
+    if (this.containsBidOfferTxid()) {
+      length += 32;
+    }
+
     return length;
   }
 
@@ -242,6 +271,10 @@ export class MarketplaceTakeOfferRequestDetails implements SerializableEntity {
 
     if (this.containsOfferParams()) {
       writer.writeVarSlice(this.offerParams.toBuffer());
+    }
+
+    if (this.containsBidOfferTxid()) {
+      writer.writeSlice(Buffer.from(this.bidOfferTxid, 'hex'));
     }
 
     return writer.buffer;
@@ -265,6 +298,10 @@ export class MarketplaceTakeOfferRequestDetails implements SerializableEntity {
       this.offerParams.fromBuffer(reader.readVarSlice(), 0);
     }
 
+    if (this.containsBidOfferTxid()) {
+      this.bidOfferTxid = reader.readSlice(32).toString('hex');
+    }
+
     return reader.offset;
   }
 
@@ -273,7 +310,8 @@ export class MarketplaceTakeOfferRequestDetails implements SerializableEntity {
       flags: this.flags ? this.flags.toString(10) : undefined,
       rawTransactionHex: this.containsRawTx() ? this.rawTransactionHex : undefined,
       offerDescription: this.containsDesc() ? this.offerDescription : undefined,
-      offerParams: this.containsOfferParams() ? this.offerParams.toJson() : undefined
+      offerParams: this.containsOfferParams() ? this.offerParams.toJson() : undefined,
+      bidOfferTxid: this.containsBidOfferTxid() ? this.bidOfferTxid : undefined
     }
   }
 
@@ -282,7 +320,8 @@ export class MarketplaceTakeOfferRequestDetails implements SerializableEntity {
       flags: json.flags ? new BN(json.flags, 10) : undefined,
       rawTransactionHex: json.rawTransactionHex,
       offerDescription: json.offerDescription,
-      offerParams: json.offerParams ? MarketplaceTakeOfferParams.fromJson(json.offerParams) : undefined
+      offerParams: json.offerParams ? MarketplaceTakeOfferParams.fromJson(json.offerParams) : undefined,
+      bidOfferTxid: json.bidOfferTxid
     })
   }
 }

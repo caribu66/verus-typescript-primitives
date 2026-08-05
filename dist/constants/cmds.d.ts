@@ -1,4 +1,5 @@
 export declare const MAKE_OFFER = "makeoffer";
+export declare const TAKE_OFFER = "takeoffer";
 export declare const GET_OFFERS = "getoffers";
 export declare const GET_IDENTITY = "getidentity";
 export declare const GET_IDENTITIES_WITH_ADDRESS = "getidentitieswithaddress";

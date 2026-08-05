@@ -13,6 +13,8 @@ export type MarketplaceTakeOfferRequestDetailsJson = {
     rawTransactionHex?: string;
     offerDescription?: string;
     offerParams?: MarketplaceTakeOfferParamsJson;
+    /** Buy-side bid txid the seller will takeoffer (accept bid). */
+    bidOfferTxid?: string;
 };
 /**
  * Parameters a wallet needs to construct a Verus marketplace sell offer (makeoffer)
@@ -47,22 +49,28 @@ export declare class MarketplaceTakeOfferRequestDetails implements SerializableE
     rawTransactionHex?: string;
     offerDescription?: string;
     offerParams?: MarketplaceTakeOfferParams;
+    /** On-chain buy-side offer txid to take as seller (accept bid). */
+    bidOfferTxid?: string;
     static MARKETPLACE_TAKEOFFER_REQUEST_VALID: import("bn.js");
     static MARKETPLACE_TAKEOFFER_REQUEST_CONTAINS_RAW_TX: import("bn.js");
     static MARKETPLACE_TAKEOFFER_REQUEST_CONTAINS_DESC: import("bn.js");
     static MARKETPLACE_TAKEOFFER_REQUEST_CONTAINS_OFFER_PARAMS: import("bn.js");
+    static MARKETPLACE_TAKEOFFER_REQUEST_CONTAINS_BID_OFFER_TXID: import("bn.js");
     constructor(data?: {
         flags?: BigNumber;
         rawTransactionHex?: string;
         offerDescription?: string;
         offerParams?: MarketplaceTakeOfferParams;
+        bidOfferTxid?: string;
     });
     containsRawTx(): boolean;
     containsDesc(): boolean;
     containsOfferParams(): boolean;
+    containsBidOfferTxid(): boolean;
     toggleContainsRawTx(): void;
     toggleContainsDesc(): void;
     toggleContainsOfferParams(): void;
+    toggleContainsBidOfferTxid(): void;
     isValid(): boolean;
     toSha256(): Buffer<ArrayBufferLike>;
     getByteLength(): number;

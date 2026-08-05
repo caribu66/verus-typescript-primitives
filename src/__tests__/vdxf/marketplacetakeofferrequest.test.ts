@@ -98,4 +98,35 @@ describe("MarketplaceTakeOfferRequestDetails", () => {
     const fromJson = MarketplaceTakeOfferRequestDetails.fromJson(json);
     expect(fromJson.toBuffer().toString('hex')).toBe(parsed.toBuffer().toString('hex'));
   });
+
+  test('serializes and deserializes accept-bid (bidOfferTxid) mode', () => {
+    const offerParams = new MarketplaceTakeOfferParams({
+      offeredIdentityId: "iN388XsmXaj7H3SLy5L1QgVztn99Yfv3b1",
+      payoutDestination: new TransferDestination({
+        type: DEST_PKH,
+        destinationBytes: fromBase58Check("RHCnxQP14Cug3JJJSUvoXM35suPw4ZqqAa").hash
+      }),
+      forCurrencyId: "iJhCezBExJHvtyH3fGhNnt2NhU4Ztkf2yq",
+      forAmountSats: new BN("200000000", 10),
+      expiryHeight: new BN("1135109", 10)
+    });
+
+    const bidTxid = "a".repeat(64);
+    const details = new MarketplaceTakeOfferRequestDetails({
+      offerDescription: "Accept bid",
+      offerParams,
+      bidOfferTxid: bidTxid
+    });
+
+    expect(details.containsBidOfferTxid()).toBe(true);
+    expect(details.containsRawTx()).toBe(false);
+    expect(details.isValid()).toBe(true);
+
+    const buf = details.toBuffer();
+    const parsed = new MarketplaceTakeOfferRequestDetails();
+    parsed.fromBuffer(buf);
+    expect(parsed.bidOfferTxid).toBe(bidTxid);
+    expect(parsed.offerParams.offeredIdentityId).toBe("iN388XsmXaj7H3SLy5L1QgVztn99Yfv3b1");
+    expect(parsed.toJson().bidOfferTxid).toBe(bidTxid);
+  });
 });

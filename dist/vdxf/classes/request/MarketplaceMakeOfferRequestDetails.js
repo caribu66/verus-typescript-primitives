@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MarketplaceMakeOfferRequestDetails = exports.MarketplaceMakeOfferParams = void 0;
+exports.MarketplaceMakeOfferRequestDetails = exports.MarketplaceMakeBuyOfferParams = exports.MarketplaceMakeOfferParams = void 0;
 const bn_js_1 = require("bn.js");
 const varuint_1 = require("../../../utils/varuint");
 const varint_1 = require("../../../utils/varint");
@@ -84,6 +84,85 @@ class MarketplaceMakeOfferParams {
     }
 }
 exports.MarketplaceMakeOfferParams = MarketplaceMakeOfferParams;
+/**
+ * Parameters for a buy-side makeoffer (bid): offer currency, want target identity.
+ * Wallet calls native makeoffer with offer={currency,amount} and for=identity definition.
+ */
+class MarketplaceMakeBuyOfferParams {
+    constructor(data) {
+        this.targetIdentityId = data === null || data === void 0 ? void 0 : data.targetIdentityId;
+        this.offeredCurrencyId = data === null || data === void 0 ? void 0 : data.offeredCurrencyId;
+        this.offeredAmountSats = (data === null || data === void 0 ? void 0 : data.offeredAmountSats) ? data.offeredAmountSats : new bn_js_1.BN(0, 10);
+        this.acceptDestination = data === null || data === void 0 ? void 0 : data.acceptDestination;
+        this.changeDestination = data === null || data === void 0 ? void 0 : data.changeDestination;
+        this.expiryHeight = (data === null || data === void 0 ? void 0 : data.expiryHeight) ? data.expiryHeight : new bn_js_1.BN(0, 10);
+    }
+    getByteLength() {
+        let length = 0;
+        length += vdxf_1.HASH160_BYTE_LENGTH;
+        length += vdxf_1.HASH160_BYTE_LENGTH;
+        length += varint_1.default.encodingLength(this.offeredAmountSats);
+        length += this.acceptDestination.getByteLength();
+        length += this.changeDestination.getByteLength();
+        length += varint_1.default.encodingLength(this.expiryHeight);
+        return length;
+    }
+    toBuffer() {
+        const writer = new BufferWriter(Buffer.alloc(this.getByteLength()));
+        writer.writeSlice((0, address_1.fromBase58Check)(this.targetIdentityId).hash);
+        writer.writeSlice((0, address_1.fromBase58Check)(this.offeredCurrencyId).hash);
+        writer.writeVarInt(this.offeredAmountSats);
+        writer.writeSlice(this.acceptDestination.toBuffer());
+        writer.writeSlice(this.changeDestination.toBuffer());
+        writer.writeVarInt(this.expiryHeight);
+        return writer.buffer;
+    }
+    fromBuffer(buffer, offset = 0) {
+        const reader = new BufferReader(buffer, offset);
+        this.targetIdentityId = (0, address_1.toBase58Check)(reader.readSlice(vdxf_1.HASH160_BYTE_LENGTH), vdxf_1.I_ADDR_VERSION);
+        this.offeredCurrencyId = (0, address_1.toBase58Check)(reader.readSlice(vdxf_1.HASH160_BYTE_LENGTH), vdxf_1.I_ADDR_VERSION);
+        this.offeredAmountSats = reader.readVarInt();
+        this.acceptDestination = new TransferDestination_1.TransferDestination();
+        reader.offset = this.acceptDestination.fromBuffer(reader.buffer, reader.offset);
+        this.changeDestination = new TransferDestination_1.TransferDestination();
+        reader.offset = this.changeDestination.fromBuffer(reader.buffer, reader.offset);
+        this.expiryHeight = reader.readVarInt();
+        return reader.offset;
+    }
+    isValid() {
+        return (typeof this.targetIdentityId === 'string' &&
+            this.targetIdentityId.length > 0 &&
+            typeof this.offeredCurrencyId === 'string' &&
+            this.offeredCurrencyId.length > 0 &&
+            this.offeredAmountSats.gt(new bn_js_1.BN(0, 10)) &&
+            this.acceptDestination != null &&
+            this.acceptDestination.isValid() &&
+            this.changeDestination != null &&
+            this.changeDestination.isValid() &&
+            this.expiryHeight.gt(new bn_js_1.BN(0, 10)));
+    }
+    toJson() {
+        return {
+            targetidentityid: this.targetIdentityId,
+            offeredcurrencyid: this.offeredCurrencyId,
+            offeredamount: this.offeredAmountSats.toString(10),
+            acceptdestination: this.acceptDestination.toJson(),
+            changedestination: this.changeDestination.toJson(),
+            expiryheight: this.expiryHeight.toString(10)
+        };
+    }
+    static fromJson(json) {
+        return new MarketplaceMakeBuyOfferParams({
+            targetIdentityId: json.targetidentityid,
+            offeredCurrencyId: json.offeredcurrencyid,
+            offeredAmountSats: new bn_js_1.BN(json.offeredamount, 10),
+            acceptDestination: TransferDestination_1.TransferDestination.fromJson(json.acceptdestination),
+            changeDestination: TransferDestination_1.TransferDestination.fromJson(json.changedestination),
+            expiryHeight: new bn_js_1.BN(json.expiryheight, 10)
+        });
+    }
+}
+exports.MarketplaceMakeBuyOfferParams = MarketplaceMakeBuyOfferParams;
 class MarketplaceMakeOfferRequestDetails {
     constructor(data) {
         this.flags = data && data.flags ? data.flags : new bn_js_1.BN("0", 10);
@@ -102,6 +181,11 @@ class MarketplaceMakeOfferRequestDetails {
                 this.toggleContainsOfferParams();
             this.offerParams = data.offerParams;
         }
+        if (data === null || data === void 0 ? void 0 : data.buyParams) {
+            if (!this.containsBuyParams())
+                this.toggleContainsBuyParams();
+            this.buyParams = data.buyParams;
+        }
     }
     containsRawTx() {
         return !!(this.flags.and(MarketplaceMakeOfferRequestDetails.MARKETPLACE_MAKEOFFER_REQUEST_CONTAINS_RAW_TX).toNumber());
@@ -112,6 +196,9 @@ class MarketplaceMakeOfferRequestDetails {
     containsOfferParams() {
         return !!(this.flags.and(MarketplaceMakeOfferRequestDetails.MARKETPLACE_MAKEOFFER_REQUEST_CONTAINS_OFFER_PARAMS).toNumber());
     }
+    containsBuyParams() {
+        return !!(this.flags.and(MarketplaceMakeOfferRequestDetails.MARKETPLACE_MAKEOFFER_REQUEST_CONTAINS_BUY_PARAMS).toNumber());
+    }
     toggleContainsRawTx() {
         this.flags = this.flags.xor(MarketplaceMakeOfferRequestDetails.MARKETPLACE_MAKEOFFER_REQUEST_CONTAINS_RAW_TX);
     }
@@ -121,16 +208,22 @@ class MarketplaceMakeOfferRequestDetails {
     toggleContainsOfferParams() {
         this.flags = this.flags.xor(MarketplaceMakeOfferRequestDetails.MARKETPLACE_MAKEOFFER_REQUEST_CONTAINS_OFFER_PARAMS);
     }
+    toggleContainsBuyParams() {
+        this.flags = this.flags.xor(MarketplaceMakeOfferRequestDetails.MARKETPLACE_MAKEOFFER_REQUEST_CONTAINS_BUY_PARAMS);
+    }
     isValid() {
-        // The request must carry something actionable: either a pre-built raw
-        // transaction or the parameters to construct one.
-        if (!this.containsRawTx() && !this.containsOfferParams())
+        if (!this.containsRawTx() && !this.containsOfferParams() && !this.containsBuyParams())
+            return false;
+        if (this.containsOfferParams() && this.containsBuyParams())
             return false;
         if (this.containsRawTx() && !this.rawTransactionHex)
             return false;
         if (this.containsDesc() && !this.offerDescription)
             return false;
         if (this.containsOfferParams() && (this.offerParams == null || !this.offerParams.isValid())) {
+            return false;
+        }
+        if (this.containsBuyParams() && (this.buyParams == null || !this.buyParams.isValid())) {
             return false;
         }
         return true;
@@ -154,6 +247,11 @@ class MarketplaceMakeOfferRequestDetails {
             length += varuint_1.default.encodingLength(paramsLength);
             length += paramsLength;
         }
+        if (this.containsBuyParams()) {
+            const paramsLength = this.buyParams.getByteLength();
+            length += varuint_1.default.encodingLength(paramsLength);
+            length += paramsLength;
+        }
         return length;
     }
     toBuffer() {
@@ -167,6 +265,9 @@ class MarketplaceMakeOfferRequestDetails {
         }
         if (this.containsOfferParams()) {
             writer.writeVarSlice(this.offerParams.toBuffer());
+        }
+        if (this.containsBuyParams()) {
+            writer.writeVarSlice(this.buyParams.toBuffer());
         }
         return writer.buffer;
     }
@@ -183,6 +284,10 @@ class MarketplaceMakeOfferRequestDetails {
             this.offerParams = new MarketplaceMakeOfferParams();
             this.offerParams.fromBuffer(reader.readVarSlice(), 0);
         }
+        if (this.containsBuyParams()) {
+            this.buyParams = new MarketplaceMakeBuyOfferParams();
+            this.buyParams.fromBuffer(reader.readVarSlice(), 0);
+        }
         return reader.offset;
     }
     toJson() {
@@ -190,7 +295,8 @@ class MarketplaceMakeOfferRequestDetails {
             flags: this.flags ? this.flags.toString(10) : undefined,
             rawTransactionHex: this.containsRawTx() ? this.rawTransactionHex : undefined,
             offerDescription: this.containsDesc() ? this.offerDescription : undefined,
-            offerParams: this.containsOfferParams() ? this.offerParams.toJson() : undefined
+            offerParams: this.containsOfferParams() ? this.offerParams.toJson() : undefined,
+            buyParams: this.containsBuyParams() ? this.buyParams.toJson() : undefined
         };
     }
     static fromJson(json) {
@@ -198,7 +304,8 @@ class MarketplaceMakeOfferRequestDetails {
             flags: json.flags ? new bn_js_1.BN(json.flags, 10) : undefined,
             rawTransactionHex: json.rawTransactionHex,
             offerDescription: json.offerDescription,
-            offerParams: json.offerParams ? MarketplaceMakeOfferParams.fromJson(json.offerParams) : undefined
+            offerParams: json.offerParams ? MarketplaceMakeOfferParams.fromJson(json.offerParams) : undefined,
+            buyParams: json.buyParams ? MarketplaceMakeBuyOfferParams.fromJson(json.buyParams) : undefined
         });
     }
 }
@@ -207,3 +314,5 @@ MarketplaceMakeOfferRequestDetails.MARKETPLACE_MAKEOFFER_REQUEST_VALID = new bn_
 MarketplaceMakeOfferRequestDetails.MARKETPLACE_MAKEOFFER_REQUEST_CONTAINS_RAW_TX = new bn_js_1.BN(1, 10);
 MarketplaceMakeOfferRequestDetails.MARKETPLACE_MAKEOFFER_REQUEST_CONTAINS_DESC = new bn_js_1.BN(2, 10);
 MarketplaceMakeOfferRequestDetails.MARKETPLACE_MAKEOFFER_REQUEST_CONTAINS_OFFER_PARAMS = new bn_js_1.BN(4, 10);
+/** Buy-side makeoffer params (currency for identity). Mutually exclusive with sell offerParams. */
+MarketplaceMakeOfferRequestDetails.MARKETPLACE_MAKEOFFER_REQUEST_CONTAINS_BUY_PARAMS = new bn_js_1.BN(8, 10);
