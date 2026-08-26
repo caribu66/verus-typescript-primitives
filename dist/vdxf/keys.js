@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ATTESTATION_ID = exports.ATTESTATION_VIEW_RESPONSE = exports.ATTESTATION_VIEW_REQUEST = exports.ATTESTATION_PROVISION_OBJECT = exports.ATTESTATION_PROVISION_TYPE = exports.ATTESTATION_PROVISION_URL = exports.CURRENCY_ADDRESS = exports.SIGNED_SESSION_OBJECT = exports.SIGNED_SESSION_OBJECT_DATA = exports.LOGIN_CONSENT_PROVISIONING_ERROR_KEY_TRANSFER_FAILED = exports.LOGIN_CONSENT_PROVISIONING_ERROR_KEY_CREATION_FAILED = exports.LOGIN_CONSENT_PROVISIONING_ERROR_KEY_COMMIT_FAILED = exports.LOGIN_CONSENT_PROVISIONING_ERROR_KEY_UNKNOWN = exports.LOGIN_CONSENT_PROVISIONING_ERROR_KEY_NAMETAKEN = exports.LOGIN_CONSENT_PROVISIONING_RESULT_STATE_FAILED = exports.LOGIN_CONSENT_PROVISIONING_RESULT_STATE_COMPLETE = exports.LOGIN_CONSENT_PROVISIONING_RESULT_STATE_PENDINGAPPROVAL = exports.LOGIN_CONSENT_PROVISIONING_RESULT_STATE_PENDINGREQUIREDINFO = exports.IDENTITY_UPDATE_TXID = exports.IDENTITY_REGISTRATION_TXID = exports.IDENTITY_NAME_COMMITMENT_TXID = exports.LOGIN_CONSENT_PROVISIONING_RESULT_VDXF_KEY = exports.LOGIN_CONSENT_PROVISIONING_RESPONSE_VDXF_KEY = exports.LOGIN_CONSENT_PROVISIONING_DECISION_VDXF_KEY = exports.LOGIN_CONSENT_PROVISIONING_CHALLENGE_VDXF_KEY = exports.LOGIN_CONSENT_PROVISIONING_REQUEST_VDXF_KEY = exports.ID_PARENT_VDXF_KEY = exports.ID_FULLYQUALIFIEDNAME_VDXF_KEY = exports.ID_SYSTEMID_VDXF_KEY = exports.ID_ADDRESS_VDXF_KEY = exports.LOGIN_CONSENT_ID_PROVISIONING_WEBHOOK_VDXF_KEY = exports.LOGIN_CONSENT_CONTEXT_VDXF_KEY = exports.LOGIN_CONSENT_PERSONALINFO_WEBHOOK_VDXF_KEY = exports.LOGIN_CONSENT_ATTESTATION_WEBHOOK_VDXF_KEY = exports.LOGIN_CONSENT_WEBHOOK_VDXF_KEY = exports.LOGIN_CONSENT_REDIRECT_VDXF_KEY = exports.WALLET_VDXF_KEY = exports.LOGIN_CONSENT_DECISION_VDXF_KEY = exports.LOGIN_CONSENT_CHALLENGE_VDXF_KEY = exports.LOGIN_CONSENT_RESPONSE_VDXF_KEY = exports.LOGIN_CONSENT_REQUEST_VDXF_KEY = exports.LOGIN_CONSENT_RESPONSE_SIG_VDXF_KEY = exports.IDENTITY_AUTH_SIG_VDXF_KEY = exports.IDENTITY_UPDATE_RESPONSE_VDXF_KEY = exports.IDENTITY_UPDATE_REQUEST_VDXF_KEY = exports.GENERIC_RESPONSE_DEEPLINK_VDXF_KEY = exports.GENERIC_REQUEST_DEEPLINK_VDXF_KEY = exports.GENERIC_ENVELOPE_DEEPLINK_VDXF_KEY = exports.VERUSPAY_INVOICE_DETAILS_VDXF_KEY = exports.VERUSPAY_INVOICE_VDXF_KEY = void 0;
-exports.REGISTER_IDENTITY_REQUEST_VDXF_KEY = exports.MARKETPLACE_CLOSEOFFER_REQUEST_VDXF_KEY = exports.MARKETPLACE_TAKEOFFER_REQUEST_VDXF_KEY = exports.MARKETPLACE_MAKEOFFER_REQUEST_VDXF_KEY = exports.SPENDABLE_KEY_DETAILS_VDXF_KEY = exports.WALLET_BACKUP = exports.CREATE_WALLET_BACKUP_DETAILS_VDXF_KEY = exports.APP_ENCRYPTION_RESPONSE_VDXF_KEY = exports.DATA_PACKET_REQUEST_VDXF_KEY = exports.USER_DATA_REQUEST_VDXF_KEY = exports.DATA_RESPONSE_VDXF_KEY = exports.APP_ENCRYPTION_REQUEST_VDXF_KEY = exports.PROVISION_IDENTITY_DETAILS_VDXF_KEY = exports.AUTHENTICATION_RESPONSE_VDXF_KEY = exports.AUTHENTICATION_REQUEST_VDXF_KEY = exports.ATTESTATION_VIEW_REQUEST_MULTIPLEATTESTATIONS = exports.PROOFS_CONTROLLER_BLUESKY = exports.PROOFS_CONTROLLER_REDDIT = exports.PROOFS_CONTROLLER_LINKEDIN = exports.PROOFS_CONTROLLER_GITHUB = exports.PROOFS_CONTROLLER_FACEBOOK = exports.PROOFS_CONTROLLER_DISCORD = exports.PROOFS_CONTROLLER = exports.IDENTITY_CREDENTIAL_USERNAME = exports.IDENTITY_CREDENTIAL_PLAINLOGIN = exports.IDENTITY_CREDENTIAL = exports.DATA_TYPE_OBJECT_CREDENTIAL = exports.DATA_DESCRIPTOR_VDXF_KEY = exports.DATA_TYPE_DEFINEDKEY = exports.DATA_TYPE_STRING = exports.IDENTITY_SIGNDATA_REQUEST = exports.PROFILE_DATA_VIEW_REQUEST = exports.ATTESTATION_VIEW_REQUEST_ID = exports.ATTESTATION_VIEW_REQUEST_ATTESTOR = exports.ATTESTATION_VIEW_REQUEST_NAME = exports.ATTESTATION_VIEW_REQUEST_KEY = exports.ATTESTATION_TYPE = exports.ATTESTATION_NAME = void 0;
+exports.ASSET_PROVENANCE_VDXF_KEY = exports.ASSET_DEED_VDXF_KEY = exports.ASSET_LICENSE_NEWCONTENTSIG_VDXF_KEY = exports.ASSET_LICENSE_GRANTEESIG_VDXF_KEY = exports.ASSET_LICENSE_GRANTORSIG_VDXF_KEY = exports.ASSET_LICENSE_VDXF_KEY = exports.ASSET_CONTENT_DELETED_VDXF_KEY = exports.ASSET_CONTENT_ALT_VDXF_KEY = exports.ASSET_CONTENT_MAIN_VDXF_KEY = exports.ASSET_CONTENT_VDXF_KEY = exports.ASSET_ROOT_VDXF_KEY = exports.ASSET_SIGNAL_VDXF_KEY = exports.REGISTER_IDENTITY_REQUEST_VDXF_KEY = exports.MARKETPLACE_CLOSEOFFER_REQUEST_VDXF_KEY = exports.MARKETPLACE_TAKEOFFER_REQUEST_VDXF_KEY = exports.MARKETPLACE_MAKEOFFER_REQUEST_VDXF_KEY = exports.SPENDABLE_KEY_DETAILS_VDXF_KEY = exports.WALLET_BACKUP = exports.CREATE_WALLET_BACKUP_DETAILS_VDXF_KEY = exports.APP_ENCRYPTION_RESPONSE_VDXF_KEY = exports.DATA_PACKET_REQUEST_VDXF_KEY = exports.USER_DATA_REQUEST_VDXF_KEY = exports.DATA_RESPONSE_VDXF_KEY = exports.APP_ENCRYPTION_REQUEST_VDXF_KEY = exports.PROVISION_IDENTITY_DETAILS_VDXF_KEY = exports.AUTHENTICATION_RESPONSE_VDXF_KEY = exports.AUTHENTICATION_REQUEST_VDXF_KEY = exports.ATTESTATION_VIEW_REQUEST_MULTIPLEATTESTATIONS = exports.PROOFS_CONTROLLER_BLUESKY = exports.PROOFS_CONTROLLER_REDDIT = exports.PROOFS_CONTROLLER_LINKEDIN = exports.PROOFS_CONTROLLER_GITHUB = exports.PROOFS_CONTROLLER_FACEBOOK = exports.PROOFS_CONTROLLER_DISCORD = exports.PROOFS_CONTROLLER = exports.IDENTITY_CREDENTIAL_USERNAME = exports.IDENTITY_CREDENTIAL_PLAINLOGIN = exports.IDENTITY_CREDENTIAL = exports.DATA_TYPE_OBJECT_CREDENTIAL = exports.DATA_DESCRIPTOR_VDXF_KEY = exports.DATA_TYPE_DEFINEDKEY = exports.DATA_TYPE_STRING = exports.IDENTITY_SIGNDATA_REQUEST = exports.PROFILE_DATA_VIEW_REQUEST = exports.ATTESTATION_VIEW_REQUEST_ID = exports.ATTESTATION_VIEW_REQUEST_ATTESTOR = exports.ATTESTATION_VIEW_REQUEST_NAME = exports.ATTESTATION_VIEW_REQUEST_KEY = exports.ATTESTATION_TYPE = exports.ATTESTATION_NAME = void 0;
+exports.ASSET_UPDATESRESTRICTED_VDXF_KEY = exports.ASSET_TRAITS_VDXF_KEY = exports.ASSET_PRESENTATION_VDXF_KEY = exports.ASSET_DESCRIPTION_VDXF_KEY = void 0;
 exports.VERUSPAY_INVOICE_VDXF_KEY = {
     hash160result: "628efc28c2e2d40050e1a9de7a93e7ddf2aa0076",
     indexid: "xK4aRumetZg2ecW4Z45qdDBH769xxnaiEH",
@@ -742,5 +743,161 @@ exports.REGISTER_IDENTITY_REQUEST_VDXF_KEY = {
     "qualifiedname": {
         "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
         "name": "vrsc::request.identity.register"
+    }
+};
+// ============================================================
+// Bound Data / Asset Convention (vrsc::identity.assets*)
+//
+// Verus-wide convention for signalling and describing NFTs/Assets bound to a
+// VerusID. ASSET_SIGNAL only is written to a ContentMultiMap as the on-chain
+// discovery marker; the remaining keys describe the asset's associated
+// content modules (root status, main/alt content, license, deed, provenance,
+// description, presentation, traits, update-restriction).
+//
+// Values verified against a live VRSCTEST daemon (2026-08-10):
+//   verus -chain=VRSCTEST getvdxfid "<name>"
+// ============================================================
+exports.ASSET_SIGNAL_VDXF_KEY = {
+    "vdxfid": "i5hQzjLKHcbeDp7UPdL4FERpCF1powi22X",
+    "indexid": "xAXXTXmQ8vpJqyzWFJzDDcxMDu2qgM7BZu",
+    "hash160result": "e11a1ec6901186cdf05fb860615accd025496018",
+    "qualifiedname": {
+        "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+        "name": "vrsc::identity.assets"
+    }
+};
+exports.ASSET_ROOT_VDXF_KEY = {
+    "vdxfid": "iRg5FV2DTFefNyhaq9JB6bgvwLce32yk1a",
+    "indexid": "xWWBiHTJJZsL19acgpxL4zDTxzdevDc3Jd",
+    "hash160result": "91115fe470f82cf751e5a0fb6a02793c12e781f3",
+    "qualifiedname": {
+        "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+        "name": "vrsc::identity.assets.root"
+    }
+};
+exports.ASSET_CONTENT_VDXF_KEY = {
+    "vdxfid": "i8iE85hPLfWagqLhxHGqQByrUTZx1xvR4J",
+    "indexid": "xDYLat8UByjFK1DjoxvzNaWPW7axtyZTRp",
+    "hash160result": "44f0be975ab5b12430b99635f6819465a4007039",
+    "qualifiedname": {
+        "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+        "name": "vrsc::identity.assets.content"
+    }
+};
+exports.ASSET_CONTENT_MAIN_VDXF_KEY = {
+    "vdxfid": "i7UmxrznKcb8PWaBQztqr6YeJgyhbj93Ff",
+    "indexid": "xCJtRfRsAvoo1gTDGgYzpV5BLLziSfw2Wo",
+    "hash160result": "a2b53e1e487060c09cbc8c4ff669484001a2ec2b",
+    "qualifiedname": {
+        "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+        "name": "vrsc::identity.assets.content.main"
+    }
+};
+exports.ASSET_CONTENT_ALT_VDXF_KEY = {
+    "vdxfid": "i65etgJ3iwW9LaNKfFkJs7vXiymKv41fXR",
+    "indexid": "xAumMUj8aFioxkFMWwQTqWT4kdnLifdzmB",
+    "hash160result": "b0869cf88b3b7e5d7904e1cbe3c05d3a5109951c",
+    "qualifiedname": {
+        "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+        "name": "vrsc::identity.assets.content.alt"
+    }
+};
+exports.ASSET_CONTENT_DELETED_VDXF_KEY = {
+    "vdxfid": "i7MBHrbVSNumUyfrbigANo564d2pGA5cit",
+    "indexid": "xCBHkf2aHh8S79YtTQLKMBbd6H3qCdcsTk",
+    "hash160result": "e1832b5fbba491d9c50bb2029198a22726c77c2a",
+    "qualifiedname": {
+        "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+        "name": "vrsc::identity.assets.content.deleted"
+    }
+};
+exports.ASSET_LICENSE_VDXF_KEY = {
+    "vdxfid": "iESBLPxgjzDXSGaCGCvLLtZ5211pNttEL4",
+    "indexid": "xKGHoCPmbJSC4STE7taVKH5c3f2qGgwnj1",
+    "hash160result": "2ef804c8abbf5992981d37ff7bc59d9658c63778",
+    "qualifiedname": {
+        "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+        "name": "vrsc::identity.assets.license"
+    }
+};
+exports.ASSET_LICENSE_GRANTORSIG_VDXF_KEY = {
+    "vdxfid": "iLDFk76y8DMDga85Dp7TYpZKJ6oP32f7Gi",
+    "indexid": "xR3NCuY3yXZtJk175VmcXD5rKkpPsFHRXu",
+    "hash160result": "e6dad0c9dcb44d18d35632dd6aad388e60cd96b7",
+    "qualifiedname": {
+        "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+        "name": "vrsc::identity.assets.license.grantorsig"
+    }
+};
+exports.ASSET_LICENSE_GRANTEESIG_VDXF_KEY = {
+    "vdxfid": "iAT5JwZ2JBKNb4zG7BxTKbccKdxuEtbMH3",
+    "indexid": "xFHBmjz79VY3DEsHxsccHz99MHyv7f777g",
+    "hash160result": "bcb7a863d102505a11dd452c069921bc7aa8824c",
+    "qualifiedname": {
+        "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+        "name": "vrsc::identity.assets.license.granteesig"
+    }
+};
+exports.ASSET_LICENSE_NEWCONTENTSIG_VDXF_KEY = {
+    "vdxfid": "iCTTgo9udsHYsMmq18qnXbDEEtR5jkWfrx",
+    "indexid": "xHHa9bazVBWDVXerrpVwVyjmGYS6XZMG8H",
+    "hash160result": "433151da7f2c3173c9ec41726b37c10dc3968562",
+    "qualifiedname": {
+        "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+        "name": "vrsc::identity.assets.license.newcontentsig"
+    }
+};
+exports.ASSET_DEED_VDXF_KEY = {
+    "vdxfid": "iG2RMa3vLiDXyQdCapYkAX4VK252X6q18D",
+    "indexid": "xLrXpNV1C2SCbaWESWCu8ub2Lg63QxKJtp",
+    "hash160result": "89355ddb9de493e4f12df996257e56132dbfa989",
+    "qualifiedname": {
+        "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+        "name": "vrsc::identity.assets.deed"
+    }
+};
+exports.ASSET_PROVENANCE_VDXF_KEY = {
+    "vdxfid": "iKjvbs2tDdQSTw5T1zxQxp1XqgALJF2zLf",
+    "indexid": "xQa34fTy4wd766xUsgcZwCY4sLBM6edcEF",
+    "hash160result": "b47a804073e8f983686760717cdff6fc9d976bb2",
+    "qualifiedname": {
+        "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+        "name": "vrsc::identity.assets.provenance"
+    }
+};
+exports.ASSET_DESCRIPTION_VDXF_KEY = {
+    "vdxfid": "iHdoUZNck3yhtNQ6TS3httAA3Be5XeThM2",
+    "indexid": "xNTuwMohbNCNWYH8K7hrsGgh4qf6LLqEZ4",
+    "hash160result": "73f088c7413e58a75e79210faf5f95d17fe5529b",
+    "qualifiedname": {
+        "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+        "name": "vrsc::identity.assets.description"
+    }
+};
+exports.ASSET_PRESENTATION_VDXF_KEY = {
+    "vdxfid": "iHnkjcArH2oM5UMEY1ufSidDoHQzTnDfFC",
+    "indexid": "xNcsCQbw8M21heEGPhZpR79kpwS1MWBS7u",
+    "hash160result": "528dfc1811f67785bb8e0af7d8965cbe395a049d",
+    "qualifiedname": {
+        "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+        "name": "vrsc::identity.assets.presentation"
+    }
+};
+exports.ASSET_TRAITS_VDXF_KEY = {
+    "vdxfid": "iEpF9LjmWCrFbXvMsfVLrJn2cUh5efG3Ec",
+    "indexid": "xKeMc9ArMX4vDhoPjM9VphJZe8i6YnH1a1",
+    "hash160result": "0389f0940c737003e412d1e37fa933f1191b647c",
+    "qualifiedname": {
+        "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+        "name": "vrsc::identity.assets.traits"
+    }
+};
+exports.ASSET_UPDATESRESTRICTED_VDXF_KEY = {
+    "vdxfid": "i831ZwhAdMK2BXW6tQtTvjPP5eE8dk8myM",
+    "indexid": "xCs82k8FUfXgohP8k6Ycu7uv7JF9YVKFpg",
+    "hash160result": "37671bd7ca56003465e1af9f1143bb74e44c0532",
+    "qualifiedname": {
+        "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+        "name": "vrsc::identity.assets.updatesrestricted"
     }
 };

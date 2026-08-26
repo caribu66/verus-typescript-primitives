@@ -850,3 +850,176 @@ export const REGISTER_IDENTITY_REQUEST_VDXF_KEY: VDXFKeyInterface = {
     "name": "vrsc::request.identity.register"
   }
 }
+
+// ============================================================
+// Bound Data / Asset Convention (vrsc::identity.assets*)
+//
+// Verus-wide convention for signalling and describing NFTs/Assets bound to a
+// VerusID. ASSET_SIGNAL only is written to a ContentMultiMap as the on-chain
+// discovery marker; the remaining keys describe the asset's associated
+// content modules (root status, main/alt content, license, deed, provenance,
+// description, presentation, traits, update-restriction).
+//
+// Values verified against a live VRSCTEST daemon (2026-08-10):
+//   verus -chain=VRSCTEST getvdxfid "<name>"
+// ============================================================
+
+export const ASSET_SIGNAL_VDXF_KEY: VDXFKeyInterface = {
+  "vdxfid": "i5hQzjLKHcbeDp7UPdL4FERpCF1powi22X",
+  "indexid": "xAXXTXmQ8vpJqyzWFJzDDcxMDu2qgM7BZu",
+  "hash160result": "e11a1ec6901186cdf05fb860615accd025496018",
+  "qualifiedname": {
+    "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+    "name": "vrsc::identity.assets"
+  }
+}
+
+export const ASSET_ROOT_VDXF_KEY: VDXFKeyInterface = {
+  "vdxfid": "iRg5FV2DTFefNyhaq9JB6bgvwLce32yk1a",
+  "indexid": "xWWBiHTJJZsL19acgpxL4zDTxzdevDc3Jd",
+  "hash160result": "91115fe470f82cf751e5a0fb6a02793c12e781f3",
+  "qualifiedname": {
+    "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+    "name": "vrsc::identity.assets.root"
+  }
+}
+
+export const ASSET_CONTENT_VDXF_KEY: VDXFKeyInterface = {
+  "vdxfid": "i8iE85hPLfWagqLhxHGqQByrUTZx1xvR4J",
+  "indexid": "xDYLat8UByjFK1DjoxvzNaWPW7axtyZTRp",
+  "hash160result": "44f0be975ab5b12430b99635f6819465a4007039",
+  "qualifiedname": {
+    "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+    "name": "vrsc::identity.assets.content"
+  }
+}
+
+export const ASSET_CONTENT_MAIN_VDXF_KEY: VDXFKeyInterface = {
+  "vdxfid": "i7UmxrznKcb8PWaBQztqr6YeJgyhbj93Ff",
+  "indexid": "xCJtRfRsAvoo1gTDGgYzpV5BLLziSfw2Wo",
+  "hash160result": "a2b53e1e487060c09cbc8c4ff669484001a2ec2b",
+  "qualifiedname": {
+    "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+    "name": "vrsc::identity.assets.content.main"
+  }
+}
+
+export const ASSET_CONTENT_ALT_VDXF_KEY: VDXFKeyInterface = {
+  "vdxfid": "i65etgJ3iwW9LaNKfFkJs7vXiymKv41fXR",
+  "indexid": "xAumMUj8aFioxkFMWwQTqWT4kdnLifdzmB",
+  "hash160result": "b0869cf88b3b7e5d7904e1cbe3c05d3a5109951c",
+  "qualifiedname": {
+    "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+    "name": "vrsc::identity.assets.content.alt"
+  }
+}
+
+export const ASSET_CONTENT_DELETED_VDXF_KEY: VDXFKeyInterface = {
+  "vdxfid": "i7MBHrbVSNumUyfrbigANo564d2pGA5cit",
+  "indexid": "xCBHkf2aHh8S79YtTQLKMBbd6H3qCdcsTk",
+  "hash160result": "e1832b5fbba491d9c50bb2029198a22726c77c2a",
+  "qualifiedname": {
+    "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+    "name": "vrsc::identity.assets.content.deleted"
+  }
+}
+
+export const ASSET_LICENSE_VDXF_KEY: VDXFKeyInterface = {
+  "vdxfid": "iESBLPxgjzDXSGaCGCvLLtZ5211pNttEL4",
+  "indexid": "xKGHoCPmbJSC4STE7taVKH5c3f2qGgwnj1",
+  "hash160result": "2ef804c8abbf5992981d37ff7bc59d9658c63778",
+  "qualifiedname": {
+    "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+    "name": "vrsc::identity.assets.license"
+  }
+}
+
+export const ASSET_LICENSE_GRANTORSIG_VDXF_KEY: VDXFKeyInterface = {
+  "vdxfid": "iLDFk76y8DMDga85Dp7TYpZKJ6oP32f7Gi",
+  "indexid": "xR3NCuY3yXZtJk175VmcXD5rKkpPsFHRXu",
+  "hash160result": "e6dad0c9dcb44d18d35632dd6aad388e60cd96b7",
+  "qualifiedname": {
+    "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+    "name": "vrsc::identity.assets.license.grantorsig"
+  }
+}
+
+export const ASSET_LICENSE_GRANTEESIG_VDXF_KEY: VDXFKeyInterface = {
+  "vdxfid": "iAT5JwZ2JBKNb4zG7BxTKbccKdxuEtbMH3",
+  "indexid": "xFHBmjz79VY3DEsHxsccHz99MHyv7f777g",
+  "hash160result": "bcb7a863d102505a11dd452c069921bc7aa8824c",
+  "qualifiedname": {
+    "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+    "name": "vrsc::identity.assets.license.granteesig"
+  }
+}
+
+export const ASSET_LICENSE_NEWCONTENTSIG_VDXF_KEY: VDXFKeyInterface = {
+  "vdxfid": "iCTTgo9udsHYsMmq18qnXbDEEtR5jkWfrx",
+  "indexid": "xHHa9bazVBWDVXerrpVwVyjmGYS6XZMG8H",
+  "hash160result": "433151da7f2c3173c9ec41726b37c10dc3968562",
+  "qualifiedname": {
+    "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+    "name": "vrsc::identity.assets.license.newcontentsig"
+  }
+}
+
+export const ASSET_DEED_VDXF_KEY: VDXFKeyInterface = {
+  "vdxfid": "iG2RMa3vLiDXyQdCapYkAX4VK252X6q18D",
+  "indexid": "xLrXpNV1C2SCbaWESWCu8ub2Lg63QxKJtp",
+  "hash160result": "89355ddb9de493e4f12df996257e56132dbfa989",
+  "qualifiedname": {
+    "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+    "name": "vrsc::identity.assets.deed"
+  }
+}
+
+export const ASSET_PROVENANCE_VDXF_KEY: VDXFKeyInterface = {
+  "vdxfid": "iKjvbs2tDdQSTw5T1zxQxp1XqgALJF2zLf",
+  "indexid": "xQa34fTy4wd766xUsgcZwCY4sLBM6edcEF",
+  "hash160result": "b47a804073e8f983686760717cdff6fc9d976bb2",
+  "qualifiedname": {
+    "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+    "name": "vrsc::identity.assets.provenance"
+  }
+}
+
+export const ASSET_DESCRIPTION_VDXF_KEY: VDXFKeyInterface = {
+  "vdxfid": "iHdoUZNck3yhtNQ6TS3httAA3Be5XeThM2",
+  "indexid": "xNTuwMohbNCNWYH8K7hrsGgh4qf6LLqEZ4",
+  "hash160result": "73f088c7413e58a75e79210faf5f95d17fe5529b",
+  "qualifiedname": {
+    "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+    "name": "vrsc::identity.assets.description"
+  }
+}
+
+export const ASSET_PRESENTATION_VDXF_KEY: VDXFKeyInterface = {
+  "vdxfid": "iHnkjcArH2oM5UMEY1ufSidDoHQzTnDfFC",
+  "indexid": "xNcsCQbw8M21heEGPhZpR79kpwS1MWBS7u",
+  "hash160result": "528dfc1811f67785bb8e0af7d8965cbe395a049d",
+  "qualifiedname": {
+    "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+    "name": "vrsc::identity.assets.presentation"
+  }
+}
+
+export const ASSET_TRAITS_VDXF_KEY: VDXFKeyInterface = {
+  "vdxfid": "iEpF9LjmWCrFbXvMsfVLrJn2cUh5efG3Ec",
+  "indexid": "xKeMc9ArMX4vDhoPjM9VphJZe8i6YnH1a1",
+  "hash160result": "0389f0940c737003e412d1e37fa933f1191b647c",
+  "qualifiedname": {
+    "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+    "name": "vrsc::identity.assets.traits"
+  }
+}
+
+export const ASSET_UPDATESRESTRICTED_VDXF_KEY: VDXFKeyInterface = {
+  "vdxfid": "i831ZwhAdMK2BXW6tQtTvjPP5eE8dk8myM",
+  "indexid": "xCs82k8FUfXgohP8k6Ycu7uv7JF9YVKFpg",
+  "hash160result": "37671bd7ca56003465e1af9f1143bb74e44c0532",
+  "qualifiedname": {
+    "namespace": "i5w5MuNik5NtLcYmNzcvaoixooEebB6MGV",
+    "name": "vrsc::identity.assets.updatesrestricted"
+  }
+}
